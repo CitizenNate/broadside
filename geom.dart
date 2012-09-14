@@ -1,9 +1,5 @@
 
-class BroadsideObject{
-  abstract bool equals(o);
-  bool operator==(o)=>
-      o!==null && (this===o || this.equals(o));
-}
+
 
 class Vector extends BroadsideObject{
   num x;
@@ -11,6 +7,11 @@ class Vector extends BroadsideObject{
   Vector(this.x,this.y);
   bool equals (o) => o is Vector && x==o.x && y==o.y;
   String toString()=>"[Vector x:$x y:$y]";
+
+  void add(Vector other) {
+    x+=other.x;
+    y+=other.y;
+  }
 }
 class Size extends BroadsideObject{
   num width;
@@ -19,7 +20,16 @@ class Size extends BroadsideObject{
   bool equals (o) => o is Size && width==o.width && height==o.height;
   String toString() => "[Size width:$width height:$height]";
 }
-class Rectangle extends BroadsideObject{
+class Shape{
+}
+class Span extends BroadsideObject implements Shape{
+  final num start;
+  final num end;
+  Span(this.start,this.end);
+  bool equals (o) => o is Span && start==o.start && end==o.end;
+  String toString() => "[Span start:$start end:$end]";
+}
+class Rectangle extends BroadsideObject implements Shape{
   Vector point;
   Size size;
   
@@ -34,6 +44,9 @@ class Rectangle extends BroadsideObject{
   
   num get height => size.height;
   void set height(height ) {size.height=height;}
+  
+  Span get xspan => new Span(x,x+width);
+  Span get yspan => new Span(y,y+height);
   
   Rectangle(x,y,width,height){
     point=new Vector(x,y);
