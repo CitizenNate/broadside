@@ -11,6 +11,11 @@ class SpanBinaryCollision implements BinaryCollision{
     if(!(a is Span) || !(b is Span)){
       throw new IllegalArgumentException("SpanCollisionImplementation can only handle spans");
     }
+    Span s1=a;
+    Span s2=b;
+    num start=max(s1.start,s2.start);
+    num end  =min(s1.end,s2.end);
+    return start<end;
   }
 }
 class RectangleBinaryCollision implements BinaryCollision{
@@ -24,7 +29,8 @@ class RectangleBinaryCollision implements BinaryCollision{
     }
     Rectangle r1=a;
     Rectangle r2=b;
-    return(spanBC.isColliding(r1.xspan, r2.xspan) && spanBC.isColliding(r1.yspan, r2.yspan));
+    return(spanBC.isColliding(r1.xspan, r2.xspan) &&
+           spanBC.isColliding(r1.yspan, r2.yspan));
   }
 }
 class Collider{
@@ -36,8 +42,7 @@ class Collider{
   List<Collider> cached=new List();
   Collider(this.system,this.owner,this.shape,this.type);
   void unregister(){
-    int index=system.colliders.indexOf(this);
-    system.colliders.removeRange(index,1);
+    listRemove(system.colliders,this);
   }
   List<Collider> getCollisions(TypeNode others){
     return system.getCollisionsCT(this,others);

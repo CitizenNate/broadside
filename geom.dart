@@ -55,4 +55,11 @@ class Rectangle extends BroadsideObject implements Shape{
   Rectangle.fromPointAndSize(this.point,this.size);
   bool equals (o) => o is Rect && point==o.point && size==o.size;
   String toString() => "[Rect point:$point size:$size]";
+  Rectangle union(Rectangle other){
+    num x1=min(x,other.x);
+    num y1=min(y,other.y);
+    num x2=max(x+width,other.x+other.width);
+    num y2=max(y+height,other.y+other.height);
+    return new Rectangle(x1,y1,x2-x1,y2-y1);
+  }
 }

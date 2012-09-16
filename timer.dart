@@ -7,9 +7,12 @@ class Timer{
   abstract void stop();
 }
 class TimeoutTimer implements Timer{
-  callback action=(){};
+  callback action;
   int interval=100;
   bool active=false;
+  TimeoutTimer(){
+    action=(){};
+  }
   void start(){
     if(!active){
       active=true;
